@@ -1,0 +1,54 @@
+:root {
+  --padding: 8px;
+  --creators-color: yellow;
+  --info-color: aqua;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  overflow: hidden;
+}
+
+#creator-panel,
+#info-panel {
+  position: fixed;
+  padding: var(--padding);
+  max-width: calc(50% - var(--padding));
+}
+
+#creator-panel {
+  top: 0;
+  left: 0;
+  color: var(--creators-color);
+}
+
+#info-panel {
+  right: 0;
+  top: 0;
+  color: var(--info-color);
+}
+
+.rage-container{
+  position: fixed;
+  width: 60%;
+  bottom: var(--padding);
+  color: white;
+}
+
+#time-range{
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
