@@ -109,7 +109,7 @@ function init() {
   });
   sun.mesh = new THREE.Mesh(sun.geometry, sun.material);
   sun.mesh.position.y = PLANET_DISTANCE;
-  sun.light = new THREE.SpotLight(0xffffff, 500, 1000, Math.PI / 4);
+  sun.light = new THREE.PointLight(0xffffff, 500, 1000);
   sun.light.castShadow = true;
   sun.light.position.y = PLANET_DISTANCE;
   sun.light.lookAt(new THREE.Vector3(0, -1, 0));
