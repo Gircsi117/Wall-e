@@ -26,11 +26,20 @@ let TIME = 0;
 let WIDTH, HEIGHT, ASPECT_RATIO;
 let renderer, controls, scene, camera;
 
+// Textúra betöltő
+let textureLoader;
+
 const test = { testGeometry: null, testMaterial: null, testMesh: null };
+
+// Talaj
 const floor = { geometry: null, material: null, mesh: null };
+
+// Nap és a hold
 const planetHolder = { geometry: null, material: null, mesh: null };
-const sun = { geometry: null, material: null, mesh: null };
-const moon = { geometry: null, material: null, mesh: null };
+const sun = { geometry: null, material: null, mesh: null, light: null };
+const moon = { geometry: null, material: null, mesh: null, light: null };
+
+const lamp = { geometry: null, material: null, mesh: null };
 
 init();
 animate();
@@ -43,13 +52,13 @@ function init() {
   HEIGHT = window.innerHeight;
   ASPECT_RATIO = WIDTH / HEIGHT;
 
-  // Renderer létrehozása
+  //* Renderer létrehozása
   renderer = new THREE.WebGLRenderer({ antialias: true });
   //renderer.setClearColor(0x40a6e3);
   renderer.setSize(WIDTH, HEIGHT);
   document.body.appendChild(renderer.domElement);
 
-  // Scene beállítása
+  //* Scene beállítása
   scene = new THREE.Scene();
 
   // Kamera beállítása
@@ -57,43 +66,68 @@ function init() {
   camera.position.z = 12;
   camera.lookAt(scene.position);
 
-  //Teszt objektum betöltése
-  /*testGeometry = new THREE.SphereGeometry(7, 50, 50);
-  testMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00ff00,
-    wireframe: true,
-  });
-  testMesh = new THREE.Mesh(testGeometry, testMaterial);
-  scene.add(testMesh);*/
+  //* Textúra betöltés
+  textureLoader = new THREE.TextureLoader();
 
-  //Padló hozzáadása
-  floor.geometry = new THREE.PlaneGeometry(10, 10);
-  floor.material = new THREE.MeshBasicMaterial({
+  //* Teszt objektum betöltése
+  test.geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  test.material = new THREE.MeshPhongMaterial({
     color: 0x00ff00,
+    castShadow: true,
+    receiveShadow: true
+  });
+  test.mesh = new THREE.Mesh(test.geometry, test.material);
+  scene.add(test.mesh);
+
+  let ambientLight = new THREE.AmbientLight(0x202020, Math.PI);
+  scene.add(ambientLight);
+
+  //* Padló hozzáadása
+  let floorTexture = textureLoader.load("../assets/materials/red_sand.jpg");
+  floor.geometry = new THREE.PlaneGeometry(10, 10);
+  floor.material = new THREE.MeshPhongMaterial({
+    map: floorTexture,
     side: THREE.DoubleSide,
+    shininess: 1,
   });
   floor.mesh = new THREE.Mesh(floor.geometry, floor.material);
+  floor.mesh.castShadow = true;
   floor.mesh.rotation.x = -Math.PI / 2;
   floor.mesh.position.y = FLOOR_Y;
   scene.add(floor.mesh);
 
-  // Nap hozzáadása
+  //* Nap hozzáadása
+  let sunTexture = textureLoader.load("../assets/materials/sun.jpg");
   sun.geometry = new THREE.SphereGeometry(1, 50, 50);
-  sun.material = new THREE.MeshBasicMaterial({
-    color: 0xffff00,
+  sun.material = new THREE.MeshPhongMaterial({
+    map: sunTexture,
+    emissiveMap: sunTexture,
+    emissive: 0xffff00,
+    emissiveIntensity: 2,
   });
   sun.mesh = new THREE.Mesh(sun.geometry, sun.material);
   sun.mesh.position.y = PLANET_DISTANCE;
+  sun.light = new THREE.PointLight(0xffffff, 500, 1000);
+  sun.light.position.y = PLANET_DISTANCE;
+  sun.light.lookAt(new THREE.Vector3(0, -1, 0));
 
-  // Hold hozzáadása
+
+  //* Hold hozzáadása
+  let moonTexture = textureLoader.load("../assets/materials/moon.jpg");
   moon.geometry = new THREE.SphereGeometry(1, 50, 50);
-  moon.material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
+  moon.material = new THREE.MeshPhongMaterial({
+    map: moonTexture,
+    emissiveMap: moonTexture,
+    emissive: 0xffffff,
+    emissiveIntensity: 1,
   });
   moon.mesh = new THREE.Mesh(moon.geometry, moon.material);
   moon.mesh.position.y = -PLANET_DISTANCE;
+  moon.light = new THREE.PointLight(0x87ceeb, 25, 1000);
+  moon.light.position.y = -PLANET_DISTANCE;
+  moon.light.lookAt(new THREE.Vector3(0, -1, 0));
 
-  // PlanetHolder hozzáadása
+  //* PlanetHolder hozzáadása
   planetHolder.geometry = new THREE.SphereGeometry(0, 1, 1);
   planetHolder.material = new THREE.MeshNormalMaterial();
   planetHolder.mesh = new THREE.Mesh(
@@ -101,18 +135,20 @@ function init() {
     planetHolder.material
   );
   planetHolder.mesh.position.y = FLOOR_Y;
-
   planetHolder.mesh.add(sun.mesh);
+  planetHolder.mesh.add(sun.light);
   planetHolder.mesh.add(moon.mesh);
+  planetHolder.mesh.add(moon.light);
   scene.add(planetHolder.mesh);
 
-  // OrbitControls beállítása
+  //* OrbitControls beállítása
   controls = new OrbitControls(camera, renderer.domElement);
 
-  // Eventek beállítása
+  //* Eventek beállítása
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", keyEvents);
 
+  //* Időállító csúszka beállítása
   timeRange.value = 0;
   timeRange.min = -Math.PI;
   timeRange.max = Math.PI;
@@ -125,6 +161,12 @@ function init() {
 //*------------------------------------------------------------------------------------------------------------------
 function animate() {
   requestAnimationFrame(animate);
+
+  //* Nap és hol forgatása
+  sun.mesh.rotation.y += 0.02;
+  sun.mesh.rotation.z += 0.02;
+  moon.mesh.rotation.y += 0.02;
+  moon.mesh.rotation.z += 0.02;
 
   controls.update();
   render();
