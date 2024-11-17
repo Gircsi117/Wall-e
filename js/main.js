@@ -54,14 +54,14 @@ function init() {
 
   //* Renderer létrehozása
   renderer = new THREE.WebGLRenderer({ antialias: true });
-  //renderer.setClearColor(0x40a6e3);
   renderer.setSize(WIDTH, HEIGHT);
+  renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
   //* Scene beállítása
   scene = new THREE.Scene();
 
-  // Kamera beállítása
+  //* Kamera beállítása
   camera = new THREE.PerspectiveCamera(75, ASPECT_RATIO, 0.1, 1000);
   camera.position.z = 12;
   camera.lookAt(scene.position);
@@ -70,15 +70,16 @@ function init() {
   textureLoader = new THREE.TextureLoader();
 
   //* Teszt objektum betöltése
-  test.geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  test.geometry = new THREE.BoxGeometry(0.99, 0.99, 0.99);
   test.material = new THREE.MeshPhongMaterial({
     color: 0x00ff00,
-    castShadow: true,
-    receiveShadow: true
   });
   test.mesh = new THREE.Mesh(test.geometry, test.material);
+  test.mesh.castShadow = true;
+  test.mesh.receiveShadow = false;
   scene.add(test.mesh);
 
+  //* Ambient light
   let ambientLight = new THREE.AmbientLight(0x202020, Math.PI);
   scene.add(ambientLight);
 
@@ -91,7 +92,8 @@ function init() {
     shininess: 1,
   });
   floor.mesh = new THREE.Mesh(floor.geometry, floor.material);
-  floor.mesh.castShadow = true;
+  floor.mesh.castShadow = false;
+  floor.mesh.receiveShadow = true;
   floor.mesh.rotation.x = -Math.PI / 2;
   floor.mesh.position.y = FLOOR_Y;
   scene.add(floor.mesh);
@@ -107,10 +109,10 @@ function init() {
   });
   sun.mesh = new THREE.Mesh(sun.geometry, sun.material);
   sun.mesh.position.y = PLANET_DISTANCE;
-  sun.light = new THREE.PointLight(0xffffff, 500, 1000);
+  sun.light = new THREE.SpotLight(0xffffff, 500, 1000, Math.PI / 4);
+  sun.light.castShadow = true;
   sun.light.position.y = PLANET_DISTANCE;
   sun.light.lookAt(new THREE.Vector3(0, -1, 0));
-
 
   //* Hold hozzáadása
   let moonTexture = textureLoader.load("../assets/materials/moon.jpg");
@@ -124,6 +126,7 @@ function init() {
   moon.mesh = new THREE.Mesh(moon.geometry, moon.material);
   moon.mesh.position.y = -PLANET_DISTANCE;
   moon.light = new THREE.PointLight(0x87ceeb, 25, 1000);
+  moon.light.castShadow = true;
   moon.light.position.y = -PLANET_DISTANCE;
   moon.light.lookAt(new THREE.Vector3(0, -1, 0));
 
