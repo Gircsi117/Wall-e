@@ -24,7 +24,7 @@ class PlanetHolder {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
     this.sun = new Planet(1, sunTexture, 0xffff00, 2, 0.01);
-    this.moon = new Planet(1, moonTexture, 0xffffff, 1, 0.02);
+    this.moon = new Planet(1, moonTexture, 0xffffff, 1.5, 0.02);
 
     this.sun.mesh.position.y = planetDistance;
     this.moon.mesh.position.y = -planetDistance;

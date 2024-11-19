@@ -26,6 +26,7 @@ let SCREEN_HEIGHT;
 let SCREEN_ASPECT_RATIO;
 let FLOOR_Y = -0.5;
 let PLANET_ROTATION = 0;
+let LIGHT_ON = true;
 
 let renderer;
 let scene;
@@ -82,6 +83,13 @@ function init() {
   lamp_2 = new Lamp(-2.5, FLOOR_Y, -2.5, Math.PI - Math.PI / 4);
   scene.add(lamp_1.mesh);
   scene.add(lamp_2.mesh);
+
+  /*const light = new THREE.SpotLight(0xff0000, 1000, 5, Math.PI / 15)
+  light.position.y = 4
+  const lightHelper = new THREE.SpotLightHelper(light);
+  scene.add(lightHelper);
+  scene.add(light);*/
+  //scene.add(lamp_1.light)
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
@@ -142,17 +150,10 @@ function keyEvents(e) {
     return;
   }
   if (e.key == "p") return (ANIMATE = !ANIMATE);
-  if (e.key == "ArrowRight" && !TIME_CHANGE) {
-    TARGET_TIME -= Math.PI / TIME_INTERVAL;
-    TIME_STEP = -Math.abs(TIME_STEP);
-    TIME_CHANGE = true;
-    return;
-  }
-  if (e.key == "ArrowLeft" && !TIME_CHANGE) {
-    TARGET_TIME += Math.PI / TIME_INTERVAL;
-    TIME_STEP = Math.abs(TIME_STEP);
-    TIME_CHANGE = true;
-    return;
+  if (e.key == "l"){
+    LIGHT_ON = !LIGHT_ON;
+    lamp_1.turnLight(LIGHT_ON);
+    lamp_2.turnLight(LIGHT_ON);
   }
 }
 
@@ -164,5 +165,7 @@ function hideInfos() {
 }
 
 function timeChange(e) {
+  console.log(e.target.value);
+  
   PLANET_ROTATION = e.target.value;
 }
