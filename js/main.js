@@ -12,6 +12,7 @@ import { OBJLoader } from "OBJLoader";
 
 import Floor from "./components/Floor.js";
 import PlanetHolder from "./components/PlanetHolder.js";
+import Lamp from "./components/Lamp.js";
 
 // Gilián Erik
 // OPD9JB
@@ -34,6 +35,8 @@ let ambientLight;
 
 let floor;
 let planetHolder;
+let lamp_1;
+let lamp_2;
 
 init();
 animate();
@@ -73,6 +76,12 @@ function init() {
   planetHolder = new PlanetHolder(15);
   planetHolder.mesh.position.y = FLOOR_Y;
   scene.add(planetHolder.mesh);
+
+  //* Lámpa beállítása
+  lamp_1 = new Lamp(2.5, FLOOR_Y, -2.5, Math.PI / 4);
+  lamp_2 = new Lamp(-2.5, FLOOR_Y, -2.5, Math.PI - Math.PI / 4);
+  scene.add(lamp_1.mesh);
+  scene.add(lamp_2.mesh);
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
@@ -127,6 +136,11 @@ function keyEvents(e) {
 
   if (e.key == "i") return hideInfos();
   if (e.key == "r") return controls.reset();
+  if (e.key == "t") {
+    timeRange.value = 0;
+    PLANET_ROTATION = 0;
+    return;
+  }
   if (e.key == "p") return (ANIMATE = !ANIMATE);
   if (e.key == "ArrowRight" && !TIME_CHANGE) {
     TARGET_TIME -= Math.PI / TIME_INTERVAL;

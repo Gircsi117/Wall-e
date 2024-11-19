@@ -29,8 +29,20 @@ class PlanetHolder {
     this.sun.mesh.position.y = planetDistance;
     this.moon.mesh.position.y = -planetDistance;
 
+    this.sunLight = new THREE.PointLight(0xffffff, 500, 1000);
+    this.sunLight.castShadow = true;
+    this.sunLight.position.y = planetDistance;
+    this.sunLight.lookAt(this.mesh.position);
+
+    this.moonLight = new THREE.PointLight(0x87ceeb, 25, 1000);
+    this.moonLight.castShadow = true;
+    this.moonLight.position.y = -planetDistance;
+    this.moonLight.lookAt(this.mesh.position);
+
     this.mesh.add(this.sun.mesh);
     this.mesh.add(this.moon.mesh);
+    this.mesh.add(this.sunLight);
+    this.mesh.add(this.moonLight);
   }
 
   animate(rotate = 0) {
