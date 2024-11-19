@@ -11,6 +11,7 @@ import { TransformControls } from "TransformControls";
 import { OBJLoader } from "OBJLoader";
 
 import Floor from "./components/Floor.js";
+import PlanetHolder from "./components/PlanetHolder.js";
 
 // Gilián Erik
 // OPD9JB
@@ -23,6 +24,7 @@ let SCREEN_WIDTH;
 let SCREEN_HEIGHT;
 let SCREEN_ASPECT_RATIO;
 let FLOOR_Y = -0.5;
+let PLANET_ROTATION = 0;
 
 let renderer;
 let scene;
@@ -31,6 +33,7 @@ let controls;
 let ambientLight;
 
 let floor;
+let planetHolder;
 
 init();
 animate();
@@ -66,6 +69,11 @@ function init() {
   floor.mesh.position.y = FLOOR_Y;
   scene.add(floor.mesh);
 
+  //* Planet holder beállítása
+  planetHolder = new PlanetHolder(15);
+  planetHolder.mesh.position.y = FLOOR_Y;
+  scene.add(planetHolder.mesh);
+
   //* Eventek beállítása
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", keyEvents);
@@ -84,6 +92,8 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
+  planetHolder.animate(PLANET_ROTATION);
+
   controls.update();
   render();
 }
@@ -99,11 +109,11 @@ function render() {
 //* Ablak átméretezése
 //*------------------------------------------------------------------------------------------------------------------
 function resize() {
-  WIDTH = window.innerWidth;
-  HEIGHT = window.innerHeight;
-  ASPECT_RATIO = WIDTH / HEIGHT;
-  renderer.setSize(WIDTH, HEIGHT);
-  camera.aspect = ASPECT_RATIO;
+  SCREEN_WIDTH = window.innerWidth;
+  SCREEN_HEIGHT = window.innerHeight;
+  SCREEN_ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+  renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  camera.aspect = SCREEN_ASPECT_RATIO;
   camera.updateProjectionMatrix();
 
   render();
@@ -140,5 +150,5 @@ function hideInfos() {
 }
 
 function timeChange(e) {
-  TIME = e.target.value;
+  PLANET_ROTATION = e.target.value;
 }
