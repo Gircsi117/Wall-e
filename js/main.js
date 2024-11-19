@@ -27,6 +27,32 @@ let SCREEN_ASPECT_RATIO;
 let FLOOR_Y = -0.5;
 let PLANET_ROTATION = 0;
 let LIGHT_ON = true;
+let TIMES = {
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+  11: 0,
+  12: 0,
+  13: 0,
+  14: 0,
+  15: 0,
+  16: 0,
+  17: 0,
+  18: 0,
+  19: 0,
+  20: 0,
+  21: 0,
+  22: 0,
+  23: 0,
+};
 
 let renderer;
 let scene;
@@ -96,11 +122,11 @@ function init() {
   window.addEventListener("keydown", keyEvents);
 
   //* Időállító csúszka beállítása
-  timeRange.value = 0;
-  timeRange.min = -Math.PI;
-  timeRange.max = Math.PI;
-  timeRange.step = 0.05;
-  timeRange.addEventListener("input", timeChange);
+  timeRange.value = 12;
+  timeRange.min = 0;
+  timeRange.max = 23;
+  timeRange.step = 1;
+  //timeRange.addEventListener("input", timeChange);
 }
 
 //*------------------------------------------------------------------------------------------------------------------
@@ -150,7 +176,7 @@ function keyEvents(e) {
     return;
   }
   if (e.key == "p") return (ANIMATE = !ANIMATE);
-  if (e.key == "l"){
+  if (e.key == "l") {
     LIGHT_ON = !LIGHT_ON;
     lamp_1.turnLight(LIGHT_ON);
     lamp_2.turnLight(LIGHT_ON);
@@ -166,6 +192,6 @@ function hideInfos() {
 
 function timeChange(e) {
   console.log(e.target.value);
-  
+
   PLANET_ROTATION = e.target.value;
 }
