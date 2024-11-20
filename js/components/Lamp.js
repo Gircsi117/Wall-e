@@ -43,18 +43,24 @@ class Lamp {
     this.feet.material = lampMaterial;
     this.feet.mesh = new THREE.Mesh(this.feet.geometry, this.feet.material);
     this.feet.mesh.position.y += feetHeight / 2;
+    this.feet.mesh.castShadow = true;
+    this.feet.mesh.receiveShadow = false;
 
     //* Body
     this.body.geometry = new THREE.CylinderGeometry(r, r, height, se);
     this.body.material = lampMaterial;
     this.body.mesh = new THREE.Mesh(this.body.geometry, this.body.material);
     this.body.mesh.position.y += height / 2;
+    this.body.mesh.castShadow = true;
+    this.body.mesh.receiveShadow = false;
 
     //* Joint
     this.joint.geometry = new THREE.SphereGeometry(r, se, se);
     this.joint.material = lampMaterial;
     this.joint.mesh = new THREE.Mesh(this.joint.geometry, this.joint.material);
     this.joint.mesh.position.y = height;
+    this.joint.mesh.castShadow = true;
+    this.joint.mesh.receiveShadow = false;
 
     //* Neck
     this.neck.geometry = new THREE.CylinderGeometry(r, r, neckLength, se);
@@ -63,6 +69,8 @@ class Lamp {
     this.neck.mesh.position.y = height;
     this.neck.mesh.position.x = -neckLength / 2;
     this.neck.mesh.rotation.z = Math.PI / 2;
+    this.neck.mesh.castShadow = true;
+    this.neck.mesh.receiveShadow = false;
 
     //* Head
     this.head.geometry = new THREE.CylinderGeometry(
@@ -75,6 +83,8 @@ class Lamp {
     this.head.mesh = new THREE.Mesh(this.head.geometry, this.head.material);
     this.head.mesh.position.y = height;
     this.head.mesh.position.x = -neckLength;
+    this.head.mesh.castShadow = true;
+    this.head.mesh.receiveShadow = false;
 
     //* Light target
     this.lightTarget = new THREE.Object3D();

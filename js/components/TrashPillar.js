@@ -179,22 +179,21 @@ class TrashPillar {
       new THREE.BufferAttribute(this.vertices, 3)
     );
     this.geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    this.geometry.computeVertexNormals();
 
     const texture = textureLoader.load("../../assets/materials/trash_1.jpg");
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(1, 1);
-    texture.center.set(0.5, 0.5);
 
-    this.material = new THREE.MeshBasicMaterial({
+    this.material = new THREE.MeshPhongMaterial({
       map: texture,
       color: 0x987755,
       side: THREE.DoubleSide,
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    const axesHelper = new THREE.AxesHelper(5);
-    this.mesh.add(axesHelper);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = false;
+    //const axesHelper = new THREE.AxesHelper(5);
+    //this.mesh.add(axesHelper);
   }
 }
 
