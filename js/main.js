@@ -13,6 +13,7 @@ import { OBJLoader } from "OBJLoader";
 import Floor from "./components/Floor.js";
 import PlanetHolder from "./components/PlanetHolder.js";
 import Lamp from "./components/Lamp.js";
+import SkyBox from "./components/SkyBox.js";
 
 // Gilián Erik
 // OPD9JB
@@ -20,39 +21,20 @@ import Lamp from "./components/Lamp.js";
 // Kezdés: 2024. 11. 14.
 
 const timeRange = document.getElementById("time-range");
+const hourSpan = document.getElementById("hour-span");
 
 let SCREEN_WIDTH;
 let SCREEN_HEIGHT;
 let SCREEN_ASPECT_RATIO;
 let FLOOR_Y = -0.5;
-let PLANET_ROTATION = 0;
 let LIGHT_ON = true;
-let TIMES = {
-  0: 0,
-  1: 0,
-  2: 0,
-  3: 0,
-  4: 0,
-  5: 0,
-  6: 0,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 0,
-  11: 0,
-  12: 0,
-  13: 0,
-  14: 0,
-  15: 0,
-  16: 0,
-  17: 0,
-  18: 0,
-  19: 0,
-  20: 0,
-  21: 0,
-  22: 0,
-  23: 0,
-};
+let TIME = 12;
+let TIMES = {};
+let t = -12;
+for (let i = 0; i < 25; i++) {
+  TIMES[i] = t;
+  t++;
+}
 
 let renderer;
 let scene;
@@ -60,6 +42,7 @@ let camera;
 let controls;
 let ambientLight;
 
+let skybox;
 let floor;
 let planetHolder;
 let lamp_1;
@@ -94,6 +77,10 @@ function init() {
   ambientLight = new THREE.AmbientLight(0x202020, Math.PI);
   scene.add(ambientLight);
 
+  //* SkyBox beállítása
+  skybox = new SkyBox();
+  scene.add(skybox.mesh);
+
   //* Floor beállítása
   floor = new Floor(10, 10);
   floor.mesh.position.y = FLOOR_Y;
@@ -124,9 +111,9 @@ function init() {
   //* Időállító csúszka beállítása
   timeRange.value = 12;
   timeRange.min = 0;
-  timeRange.max = 23;
+  timeRange.max = 24;
   timeRange.step = 1;
-  //timeRange.addEventListener("input", timeChange);
+  timeRange.addEventListener("input", timeChange);
 }
 
 //*------------------------------------------------------------------------------------------------------------------
@@ -135,7 +122,7 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
-  planetHolder.animate(PLANET_ROTATION);
+  planetHolder.animate(((Math.PI * 2) / 24) * TIMES[TIME]);
 
   controls.update();
   render();
@@ -171,8 +158,9 @@ function keyEvents(e) {
   if (e.key == "i") return hideInfos();
   if (e.key == "r") return controls.reset();
   if (e.key == "t") {
-    timeRange.value = 0;
-    PLANET_ROTATION = 0;
+    timeRange.value = 12;
+    TIME = 12;
+    hourSpan.innerHTML = `${12}:00`;
     return;
   }
   if (e.key == "p") return (ANIMATE = !ANIMATE);
@@ -191,7 +179,6 @@ function hideInfos() {
 }
 
 function timeChange(e) {
-  console.log(e.target.value);
-
-  PLANET_ROTATION = e.target.value;
+  TIME = e.target.value;
+  hourSpan.innerHTML = `${e.target.value}:00`;
 }
