@@ -14,6 +14,7 @@ import Floor from "./components/Floor.js";
 import PlanetHolder from "./components/PlanetHolder.js";
 import Lamp from "./components/Lamp.js";
 import SkyBox from "./components/SkyBox.js";
+import TrashPillar from "./components/TrashPillar.js";
 
 // Gilián Erik
 // OPD9JB
@@ -30,6 +31,7 @@ let FLOOR_Y = -0.5;
 let LIGHT_ON = true;
 let TIME = 12;
 let TIMES = {};
+let ANIMATE = true;
 let t = -12;
 for (let i = 0; i < 25; i++) {
   TIMES[i] = t;
@@ -47,6 +49,7 @@ let floor;
 let planetHolder;
 let lamp_1;
 let lamp_2;
+let trashs = [];
 
 init();
 animate();
@@ -83,10 +86,10 @@ function init() {
 
   //* Floor beállítása
   floor = new Floor(10, 10);
-  floor.mesh.position.y = FLOOR_Y;
+  floor.mesh.position.y = FLOOR_Y - floor.mesh.geometry.parameters.depth / 2;
   scene.add(floor.mesh);
 
-  //* Planet holder beállítása
+  //* PlanetHolder beállítása
   planetHolder = new PlanetHolder(15);
   planetHolder.mesh.position.y = FLOOR_Y;
   scene.add(planetHolder.mesh);
@@ -97,12 +100,22 @@ function init() {
   scene.add(lamp_1.mesh);
   scene.add(lamp_2.mesh);
 
-  /*const light = new THREE.SpotLight(0xff0000, 1000, 5, Math.PI / 15)
-  light.position.y = 4
-  const lightHelper = new THREE.SpotLightHelper(light);
-  scene.add(lightHelper);
-  scene.add(light);*/
-  //scene.add(lamp_1.light)
+  //* TrashPillar beállítása
+  const a = new TrashPillar(4, 2);
+  a.mesh.rotation.y = Math.PI / 2;
+  a.mesh.position.set(-5, FLOOR_Y, 5);
+  trashs.push(a);
+
+  const b = new TrashPillar(6, 6);
+  b.mesh.position.set(-5, FLOOR_Y, -5);
+  trashs.push(b);
+
+  const c = new TrashPillar(5, 4);
+  c.mesh.position.set(5, FLOOR_Y, -5);
+  c.mesh.rotation.y = (Math.PI / 2) * 3;
+  trashs.push(c);
+
+  trashs.map((trash) => scene.add(trash.mesh));
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
@@ -122,7 +135,7 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
-  planetHolder.animate(((Math.PI * 2) / 24) * TIMES[TIME]);
+  planetHolder.animate(((Math.PI * 2) / 24) * TIMES[TIME], ANIMATE, TIME);
 
   controls.update();
   render();
@@ -153,8 +166,6 @@ function resize() {
 //* Billentyű események
 //*------------------------------------------------------------------------------------------------------------------
 function keyEvents(e) {
-  //console.log(e);
-
   if (e.key == "i") return hideInfos();
   if (e.key == "r") return controls.reset();
   if (e.key == "t") {

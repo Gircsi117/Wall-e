@@ -45,9 +45,27 @@ class PlanetHolder {
     this.mesh.add(this.moonLight);
   }
 
-  animate(rotate = 0) {
-    this.sun.animate();
-    this.moon.animate();
+  animate(rotate = 0, isRotatePlanet, time) {
+    if (isRotatePlanet) {
+      this.sun.animate();
+      this.moon.animate();
+    }
+
+    if (time >= 6 && time <= 18) {
+      this.sun.mesh.visible = true;
+      this.sunLight.visible = true;
+    } else {
+      this.sun.mesh.visible = false;
+      this.sunLight.visible = false;
+    }
+
+    if (time <= 6 || time >= 18) {
+      this.moon.mesh.visible = true;
+      this.moonLight.visible = true;
+    } else {
+      this.moon.mesh.visible = false;
+      this.moonLight.visible = false;
+    }
 
     this.mesh.rotation.z = -rotate;
   }
