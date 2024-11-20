@@ -15,6 +15,7 @@ import PlanetHolder from "./components/PlanetHolder.js";
 import Lamp from "./components/Lamp.js";
 import SkyBox from "./components/SkyBox.js";
 import TrashPillar from "./components/TrashPillar.js";
+import Street from "./components/Street.js";
 
 // Gilián Erik
 // OPD9JB
@@ -50,6 +51,7 @@ let planetHolder;
 let lamp_1;
 let lamp_2;
 let trashs = [];
+let street;
 
 init();
 animate();
@@ -96,8 +98,8 @@ function init() {
   scene.add(planetHolder.mesh);
 
   //* Lámpa beállítása
-  lamp_1 = new Lamp(2.5, FLOOR_Y, -2.5, Math.PI / 4);
-  lamp_2 = new Lamp(-2.5, FLOOR_Y, -2.5, Math.PI - Math.PI / 4);
+  lamp_1 = new Lamp(2.5, FLOOR_Y, -1.75, Math.PI / 2);
+  lamp_2 = new Lamp(-2.5, FLOOR_Y, -1.75, Math.PI - Math.PI / 2);
   scene.add(lamp_1.mesh);
   scene.add(lamp_2.mesh);
 
@@ -117,6 +119,13 @@ function init() {
   trashs.push(c);
 
   trashs.map((trash) => scene.add(trash.mesh));
+
+  //* Street beállítása
+  street = new Street(10, 2.5);
+  street.mesh.position.y = FLOOR_Y;
+  //street.mesh.rotation.y = Math.PI / 2;
+  scene.add(street.mesh);
+
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
