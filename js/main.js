@@ -98,8 +98,8 @@ function init() {
   scene.add(planetHolder.mesh);
 
   //* Lámpa beállítása
-  lamp_1 = new Lamp(2.5, FLOOR_Y, -1.75, Math.PI / 2);
-  lamp_2 = new Lamp(-2.5, FLOOR_Y, -1.75, Math.PI - Math.PI / 2);
+  lamp_1 = new Lamp(2.5, FLOOR_Y, -2, Math.PI / 2);
+  lamp_2 = new Lamp(-2.5, FLOOR_Y, -2, Math.PI - Math.PI / 2);
   scene.add(lamp_1.mesh);
   scene.add(lamp_2.mesh);
 
@@ -121,7 +121,7 @@ function init() {
   trashs.map((trash) => scene.add(trash.mesh));
 
   //* Street beállítása
-  street = new Street(10, 2.5);
+  street = new Street(10, 3);
   street.mesh.position.y = FLOOR_Y;
   //street.mesh.rotation.y = Math.PI / 2;
   scene.add(street.mesh);
