@@ -8,7 +8,6 @@ import { OrbitControls } from "OrbitControls";
 import { PointerLockControls } from "PointerLockControls";
 import { TrackballControls } from "TrackballControls";
 import { TransformControls } from "TransformControls";
-import { OBJLoader } from "OBJLoader";
 
 import Floor from "./components/Floor.js";
 import PlanetHolder from "./components/PlanetHolder.js";
@@ -16,6 +15,7 @@ import Lamp from "./components/Lamp.js";
 import SkyBox from "./components/SkyBox.js";
 import TrashPillar from "./components/TrashPillar.js";
 import Street from "./components/Street.js";
+import WallE from "./components/WallE.js";
 
 // Gilián Erik
 // OPD9JB
@@ -52,6 +52,7 @@ let lamp_1;
 let lamp_2;
 let trashs = [];
 let street;
+let wallE;
 
 init();
 animate();
@@ -126,6 +127,8 @@ function init() {
   //street.mesh.rotation.y = Math.PI / 2;
   scene.add(street.mesh);
 
+  //* Wall-e beállítása
+  wallE = new WallE(scene);
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
