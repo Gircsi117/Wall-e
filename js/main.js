@@ -16,6 +16,8 @@ import SkyBox from "./components/SkyBox.js";
 import TrashPillar from "./components/TrashPillar.js";
 import Street from "./components/Street.js";
 import WallE from "./components/WallE.js";
+import Bus from "./components/Bus.js";
+import BusPath from "./components/BusPath.js";
 
 // Gilián Erik
 // OPD9JB
@@ -53,6 +55,8 @@ let lamp_2;
 let trashs = [];
 let street;
 let wallE;
+let busPath;
+let bus;
 
 init();
 animate();
@@ -130,6 +134,11 @@ function init() {
   //* Wall-e beállítása
   wallE = new WallE(scene);
 
+  //* Bus beállítása
+  busPath = new BusPath();
+  bus = new Bus(scene, busPath);
+  scene.add(busPath.mesh);
+
   //* Eventek beállítása
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", keyEvents);
@@ -149,6 +158,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   planetHolder.animate(((Math.PI * 2) / 24) * TIMES[TIME], ANIMATE, TIME);
+  if(ANIMATE) bus.animate();
 
   controls.update();
   render();
