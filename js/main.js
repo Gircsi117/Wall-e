@@ -18,6 +18,7 @@ import Street from "./components/Street.js";
 import WallE from "./components/WallE.js";
 import Bus from "./components/Bus.js";
 import BusPath from "./components/BusPath.js";
+import Cactus from "./components/Cactus.js";
 
 // Gilián Erik
 // OPD9JB
@@ -57,6 +58,7 @@ let street;
 let wallE;
 let busPath;
 let bus;
+let cactus;
 
 init();
 animate();
@@ -138,6 +140,10 @@ function init() {
   busPath = new BusPath();
   bus = new Bus(scene, busPath);
   scene.add(busPath.mesh);
+
+  //* Cactus beállítása
+  cactus = new Cactus();
+  scene.add(cactus.mesh);
 
   //* Eventek beállítása
   window.addEventListener("resize", resize);
