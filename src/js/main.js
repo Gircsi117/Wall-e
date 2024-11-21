@@ -1,13 +1,10 @@
+// Gilián Erik
+// OPD9JB
+// h259826
+// Kezdés: 2024. 11. 14.
+
 import * as THREE from "three";
-import { ArcballControls } from "ArcballControls";
-import { DragControls } from "DragControls";
-import { FirstPersonControls } from "FirstPersonControls";
-import { FlyControls } from "FlyControls";
-import { MapControls } from "MapControls";
 import { OrbitControls } from "OrbitControls";
-import { PointerLockControls } from "PointerLockControls";
-import { TrackballControls } from "TrackballControls";
-import { TransformControls } from "TransformControls";
 
 import Floor from "./components/Floor.js";
 import PlanetHolder from "./components/PlanetHolder.js";
@@ -19,11 +16,6 @@ import WallE from "./components/WallE.js";
 import Bus from "./components/Bus.js";
 import BusPath from "./components/BusPath.js";
 import Cactus from "./components/Cactus.js";
-
-// Gilián Erik
-// OPD9JB
-// h259826
-// Kezdés: 2024. 11. 14.
 
 const timeRange = document.getElementById("time-range");
 const hourSpan = document.getElementById("hour-span");
