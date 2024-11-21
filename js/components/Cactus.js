@@ -17,8 +17,8 @@ class Cactus {
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    this.mesh.castShadow = false;
-    this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = false;
 
     this.mesh.position.set(3, 0.5, 3);
 
@@ -28,8 +28,8 @@ class Cactus {
       this.branch1.geometry,
       this.branch1.material
     );
-    this.branch1.mesh.castShadow = false;
-    this.branch1.mesh.receiveShadow = true;
+    this.branch1.mesh.castShadow = true;
+    this.branch1.mesh.receiveShadow = false;
     this.branch1.mesh.rotation.z = Math.PI / 4;
     this.branch1.mesh.position.x = -0.5;
     this.mesh.add(this.branch1.mesh);
@@ -40,14 +40,14 @@ class Cactus {
       this.branch2.geometry,
       this.branch2.material
     );
-    this.branch2.mesh.castShadow = false;
-    this.branch2.mesh.receiveShadow = true;
+    this.branch2.mesh.castShadow = true;
+    this.branch2.mesh.receiveShadow = false;
     this.branch2.mesh.rotation.z = -(Math.PI / 4);
     this.branch2.mesh.position.x = 0.3;
     this.branch2.mesh.position.y = 0.3;
     this.mesh.add(this.branch2.mesh);
 
-    this.mesh.rotation.y = Math.PI / 7;
+    this.mesh.rotation.y = Math.PI / 6;
   }
 }
 
