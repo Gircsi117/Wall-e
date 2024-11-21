@@ -27,6 +27,7 @@ class BusPath {
     this.geometry = new THREE.BufferGeometry().setFromPoints(this.path.getPoints(50));
     this.material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
     this.mesh = new THREE.Line(this.geometry, this.material);
+    this.mesh.visible = false;
   }
 }
 

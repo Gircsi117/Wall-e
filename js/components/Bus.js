@@ -48,7 +48,7 @@ class Bus {
     if (!this.path || !this.groupLoaded) return;
     const time = Date.now();
 
-    const t = ((time / 2000) % 6) / 6;
+    const t = ((time / 2000) % 5) / 5;
     const position = this.path.path.getPointAt(t);
     const tangent = this.path.path.getTangentAt(t).normalize();
 
